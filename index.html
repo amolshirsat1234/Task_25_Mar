@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clocks</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+        }
+        #digital-clock {
+            font-size: 2em;
+            margin-bottom: 50px;
+        }
+        #analog-clock {
+            width: 200px;
+            height: 200px;
+            border: 5px solid black;
+            border-radius: 50%;
+            position: relative;
+        }
+        .hand {
+            position: absolute;
+            width: 50%;
+            height: 2px;
+            background-color: black;
+            top: 50%;
+            transform-origin: 100%;
+            transform: rotate(90deg);
+        }
+    </style>
+</head>
+<body>
+    <h1>Digital and Analog Clocks</h1>
+    <div id="digital-clock"></div>
+    <div id="analog-clock">
+        <div id="hour-hand" class="hand"></div>
+        <div id="minute-hand" class="hand"></div>
+        <div id="second-hand" class="hand" style="background-color: red;"></div>
+    </div>
+
+    <script>
+        function updateDigitalClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('digital-clock').innerText = `${hours}:${minutes}:${seconds}`;
+        }
+
+        function updateAnalogClock() {
+            const now = new Date();
+            const hours = now.getHours() % 12;
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+
+            const hourRotation = 30 * hours + 0.5 * minutes;
+            const minuteRotation = 6 * minutes + 0.1 * seconds;
+            const secondRotation = 6 * seconds;
+
+            document.getElementById('hour-hand').style.transform = `rotate(${hourRotation}deg)`;
+            document.getElementById('minute-hand').style.transform = `rotate(${minuteRotation}deg)`;
+            document.getElementById('second-hand').style.transform = `rotate(${secondRotation}deg)`;
+        }
+
+        function updateClocks() {
+            updateDigitalClock();
+            updateAnalogClock();
+        }
+
+        setInterval(updateClocks, 1000);
+        updateClocks(); // Initialize clocks immediately
+    </script>
+</body>
+</html>
